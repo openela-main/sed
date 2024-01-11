@@ -1,0 +1,12 @@
+--- a/sed-4.5/testsuite/inplace-selinux.sh	2018-03-31 06:33:01.000000000 +0200
++++ b/sed-4.5/testsuite/inplace-selinux.sh	2021-10-05 17:10:32.259956822 +0200
+@@ -24,6 +24,9 @@
+ chcon -u system_u a || skip_ "chcon doesn't work"
+ chcon -u user_u a || skip_ "chcon doesn't work"
+ 
++cp --preserve=context ./a ./b 2>&1 | grep "cannot preserve security context" >/dev/null && skip_ "cannot preserve security context without an SELinux-enabled kernel"
++
++
+ # Create the first file and symlink pointing at it.
+ echo "Hello World" > inplace-selinux-file || framework_failure_
+ ln -s ./inplace-selinux-file inplace-selinux-link || framework_failure_
